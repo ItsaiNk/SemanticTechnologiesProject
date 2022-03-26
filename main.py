@@ -8,12 +8,12 @@ from nltk_utils import lemmatize_triplets, lemmatize_triplets_only_verbs, print_
     create_stopwords_custom_object
 from nltk_utils import remove_stopwords
 from config import *
-from App import App
-
+from rdf_utils import *
 # This is a sample Python script.
 
 # Press Maiusc+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+
 
 def readfile(filename):
     with open("./" + filename, "r") as f:
@@ -101,12 +101,12 @@ def merge_csvs():
 
 
 def create_rdf():
-    uri = "neo4j+s://1aaad8f5.databases.neo4j.io"
-    user = "neo4j"
-    password = "ualFgLva1GQRiQAARVDKHIw3kwdwgysMkmlTBBtLvC0"
-    app = App(uri, user, password)
-    app.create_relation()
-    app.close()
+    graph = create_graph()
+    # test_add_triple(graph)
+    with open(csv_folder+"triplets_hp_merged.csv", "r", newline="") as f:
+        reader = csv.reader(f)
+        for row in reader:
+            add_triple(graph, row[0], row[1], row[2])
 
 
 def main():
