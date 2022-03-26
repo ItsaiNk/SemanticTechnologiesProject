@@ -1,0 +1,10 @@
+dict_by_element = False
+save_files = False
+lemmatize = True
+coreference = True
+stopwords = True
+custom_stopwords = True
+only_verbs = True
+csv_folder = "./csv_lemm_stopwords/"
+start = 1
+stop = 7
