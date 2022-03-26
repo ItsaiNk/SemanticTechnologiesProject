@@ -2,7 +2,7 @@ import pickle
 
 import nltk
 from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
+from nltk.tokenize import word_tokenize, sent_tokenize
 from nltk import pos_tag
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet
@@ -90,3 +90,32 @@ def create_stopwords_custom_object(filename):
 def load_stopwords_custom_object():
     with open("./obj/custom_stopwords.obj", "rb") as f:
         return pickle.load(f)
+
+
+def sentence_tokenize(text):
+    return sent_tokenize(text)
+
+
+def preprocess_text(text):
+    text = text.replace("'nt ", " not ")
+    text = text.replace("'ve ", " have ")
+    text = text.replace(" what's ", " what is ")
+    text = text.replace("What's ", "What is ")
+    text = text.replace(" where's ", " where is ")
+    text = text.replace("Where's ", "Where is ")
+    text = text.replace(" how's ", " how is ")
+    text = text.replace("How's ", "How is ")
+    text = text.replace(" he's ", " he is ")
+    text = text.replace(" she's ", " she is ")
+    text = text.replace(" it's ", " it is ")
+    text = text.replace("He's ", "He is ")
+    text = text.replace("She's ", "She is ")
+    text = text.replace("It's ", "It is ")
+    text = text.replace("'d ", " had ")
+    text = text.replace("'ll ", " will ")
+    text = text.replace("'m ", " am ")
+    text = text.replace(" ma'am ", " madam ")
+    text = text.replace(" o'clock ", " of the clock ")
+    text = text.replace(" 're ", " are ")
+    text = text.replace(" y'all ", " you all ")
+    return text

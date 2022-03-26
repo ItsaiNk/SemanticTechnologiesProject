@@ -1,12 +1,10 @@
 import spacy
 import neuralcoref
-# from nltk.tokenize import sent_tokenize, word_tokenize
-# from nltk import pos_tag
 
 
 def coref_resolution(text):
     # Load SpaCy
-    nlp = spacy.load('en')
+    nlp = spacy.load('en_core_web_sm')
     # Add neural coref to SpaCy's pipe
     neuralcoref.add_to_pipe(nlp)
     """Function that executes coreference resolution on a given text"""

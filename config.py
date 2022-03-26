@@ -5,6 +5,6 @@ coreference = True
 stopwords = True
 custom_stopwords = True
 only_verbs = True
-csv_folder = "./csv_lemm_stopwords/"
+csv_folder = "./csv2/"
 start = 1
 stop = 7

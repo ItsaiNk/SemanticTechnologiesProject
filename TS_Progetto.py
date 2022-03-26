@@ -1,7 +1,4 @@
 import numpy as np
-import pandas as pd
-import ampligraph
-import os
 import pickle
 from ampligraph.datasets import load_from_csv
 from ampligraph.evaluation import train_test_split_no_unseen

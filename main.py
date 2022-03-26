@@ -2,10 +2,10 @@ import csv
 from TS_Progetto import train_model
 from Test_Progetto import test_model
 from coreference import coref_resolution
-from triplets import extract_triplets
+from triplets import OpenIEClient
 import pickle
 from nltk_utils import lemmatize_triplets, lemmatize_triplets_only_verbs, print_stopwords, \
-    create_stopwords_custom_object
+    create_stopwords_custom_object, sentence_tokenize, preprocess_text
 from nltk_utils import remove_stopwords
 from config import *
 from rdf_utils import *
@@ -54,17 +54,19 @@ def create_dict_by_element(triplets, element, save=False, filename=None):
 
 
 def create_csvs():
+    client = OpenIEClient()
     for i in range(start, stop + 1):
         text = readfile("./plots/hp" + str(i))
         print("\n*********TEXT*********\n")
         print(text)
         print("\n**********************\n")
+        text = preprocess_text(text)
         if coreference:
             text = coref_resolution(text)
         if stopwords:
             text = remove_stopwords(text, custom_stopwords)
 
-        triplets = extract_triplets(text)
+        triplets = client.extract_triplets(text)
 
         if dict_by_element:
             dict_subjects = create_dict_by_element(triplets, "subject", save_files,
@@ -110,13 +112,13 @@ def create_rdf():
 
 
 def main():
-    # create_csvs()
-    # merge_csvs()
+    create_csvs()
+    merge_csvs()
     # print_stopwords()
     # create_stopwords_custom_object()
     # train_model()
     # test_model()
-    create_rdf()
+    # create_rdf()
     return
 
 
