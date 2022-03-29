@@ -1,6 +1,6 @@
 import csv
-from TS_Progetto import train_model
-from Test_Progetto import test_model
+from ampligraph_training import train_model
+from ampligraph_test import test_model
 from coreference import coref_resolution
 from triplets import OpenIEClient
 import pickle
@@ -8,7 +8,7 @@ from nltk_utils import lemmatize_triplets, lemmatize_triplets_only_verbs, print_
     create_stopwords_custom_object, sentence_tokenize, preprocess_text
 from nltk_utils import remove_stopwords
 from config import *
-from rdf_utils import *
+from neo4j_utils import *
 # This is a sample Python script.
 
 # Press Maiusc+F10 to execute it or replace it with your code.
@@ -102,9 +102,8 @@ def merge_csvs():
                     writer.writerow(row)
 
 
-def create_rdf():
+def create_graph_node4j():
     graph = create_graph()
-    # test_add_triple(graph)
     with open(csv_folder+"triplets_hp_merged.csv", "r", newline="") as f:
         reader = csv.reader(f)
         for row in reader:
@@ -112,13 +111,12 @@ def create_rdf():
 
 
 def main():
-    create_csvs()
-    merge_csvs()
-    # print_stopwords()
     # create_stopwords_custom_object()
+    # create_csvs()
+    # merge_csvs()
     # train_model()
     # test_model()
-    # create_rdf()
+    create_graph_node4j()
     return
 
 
