@@ -117,7 +117,7 @@ def main():
     # grid_search_hyperparams()
     # test_model()
     # create_unseen()
-    predict_unseen()
+    # predict_unseen()
     # g = create_graph_node4j()
     return
 

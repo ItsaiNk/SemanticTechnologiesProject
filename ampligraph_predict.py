@@ -1,12 +1,10 @@
 import numpy as np
 import os
-from time import sleep
 from ampligraph.datasets import load_from_csv
 from ampligraph.latent_features import restore_model
 from scipy.special import expit
 import csv
 from config import *
-from alive_progress import alive_bar
 from tqdm import tqdm
 import random
 
@@ -36,7 +34,7 @@ def create_unseen():
 
 def predict_unseen():
     os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
-    model = restore_model('./training_set/model_param_1.pkl')
+    model = restore_model('./training_set/model.pkl')
     for i in range(num_gen_repetions):
         with open(csv_folder + "predicted"+str(i)+".csv", "w", newline="") as f_out:
             writer = csv.writer(f_out)

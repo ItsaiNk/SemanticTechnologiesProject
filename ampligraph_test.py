@@ -1,17 +1,14 @@
-import numpy as np
 import pickle
-
 from ampligraph.datasets import load_from_csv
 from ampligraph.latent_features import restore_model
 from ampligraph.evaluation import evaluate_performance
 from ampligraph.evaluation import mr_score, mrr_score, hits_at_n_score
-
 from config import csv_folder
 
 
 def test_model():
-    model = restore_model('./test3.pkl')
-    with open("X_test", "rb") as f:
+    model = restore_model('./training_set/model.pkl')
+    with open("./training_set/test", "rb") as f:
         X_test = pickle.load(f)
 
     positives_filter = load_from_csv(csv_folder, "triplets_hp_merged.csv", sep=",")
