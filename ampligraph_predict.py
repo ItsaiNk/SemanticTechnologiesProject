@@ -10,12 +10,12 @@ import random
 
 
 def create_unseen():
-    X = load_from_csv(csv_folder, "triplets_hp_merged.csv", sep=",")
+    triplets_hp = load_from_csv(csv_folder, "triplets_hp_merged.csv", sep=",")
     random.seed(42)
-    subjects = np.unique(X[:, 0]).tolist()
-    predicates = np.unique(X[:, 1]).tolist()
-    objects = np.unique(X[:, 2]).tolist()
-    X = X.tolist()
+    subjects = np.unique(triplets_hp[:, 0]).tolist()
+    predicates = np.unique(triplets_hp[:, 1]).tolist()
+    objects = np.unique(triplets_hp[:, 2]).tolist()
+    triplets_hp = triplets_hp.tolist()
     for i in range(num_gen_repetions):
         with open(csv_folder + "unseen" + str(i) + ".csv", "w", newline="") as f:
             writer = csv.writer(f)
@@ -27,7 +27,7 @@ def create_unseen():
                     o = random.choice(objects)
                     if s != o:
                         triple = [s, p, o]
-                        if triple not in X:
+                        if triple not in triplets_hp:
                             writer.writerow(triple)
                             added = True
 
@@ -38,11 +38,11 @@ def predict_unseen():
     for i in range(num_gen_repetions):
         with open(csv_folder + "predicted"+str(i)+".csv", "w", newline="") as f_out:
             writer = csv.writer(f_out)
-            X_unseen = load_from_csv(csv_folder, "unseen"+str(i)+".csv", sep=",")
-            scores = model.predict(X_unseen)
+            triplets_unseen = load_from_csv(csv_folder, "unseen"+str(i)+".csv", sep=",")
+            scores = model.predict(triplets_unseen)
             probs = expit(scores)
             for j in range(len(probs)):
                 if probs[j] >= 0.98:
-                    writer.writerow(X_unseen[j])
+                    writer.writerow(triplets_unseen[j])
 
 

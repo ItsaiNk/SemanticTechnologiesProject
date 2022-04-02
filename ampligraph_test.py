@@ -9,11 +9,11 @@ from config import csv_folder
 def test_model():
     model = restore_model('./training_set/model.pkl')
     with open("./training_set/test", "rb") as f:
-        X_test = pickle.load(f)
+        test_set = pickle.load(f)
 
     positives_filter = load_from_csv(csv_folder, "triplets_hp_merged.csv", sep=",")
     ranks = evaluate_performance(
-        X_test,
+        test_set,
         model=model,
         filter_triples=positives_filter,  # Corruption strategy filter defined above
         corrupt_side='s+o',
