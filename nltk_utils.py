@@ -14,7 +14,7 @@ def remove_stopwords(text, custom_stopwords):
     else:
         stopwords_list = stopwords.words('english')
     text_tokens = word_tokenize(text)
-    tokens = [word for word in text_tokens if word not in stopwords_list]
+    tokens = [word for word in text_tokens if word.lower() not in stopwords_list]
     text = ""
     for token in tokens:
         text = text + str(token) + " "

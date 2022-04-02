@@ -5,6 +5,9 @@ coreference = True
 stopwords = True
 custom_stopwords = True
 only_verbs = True
-csv_folder = "./csv3/"
+csv_folder = "./csv2/"
 start = 1
 stop = 7
+num_gen_unseen = 1000000
+num_gen_repetions = 10
+

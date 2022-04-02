@@ -1,5 +1,5 @@
 import csv
-from ampligraph_training import train_model
+from ampligraph_training import train_model, grid_search_hyperparams
 from ampligraph_test import test_model
 from coreference import coref_resolution
 from triplets import OpenIEClient
@@ -9,8 +9,7 @@ from nltk_utils import lemmatize_triplets, lemmatize_triplets_only_verbs, print_
 from nltk_utils import remove_stopwords
 from config import *
 from neo4j_utils import *
-# This is a sample Python script.
-
+from ampligraph_predict import *
 # Press Maiusc+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
@@ -108,15 +107,18 @@ def create_graph_node4j():
         reader = csv.reader(f)
         for row in reader:
             add_triple(graph, row[0], row[1], row[2])
+    return graph
 
 
 def main():
     # create_stopwords_custom_object()
     # create_csvs()
     # merge_csvs()
-    # train_model()
+    # grid_search_hyperparams()
     # test_model()
-    create_graph_node4j()
+    # create_unseen()
+    predict_unseen()
+    # g = create_graph_node4j()
     return
 
 
