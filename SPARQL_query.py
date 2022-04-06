@@ -1,3 +1,4 @@
+from difflib import SequenceMatcher
 from SPARQLWrapper import SPARQLWrapper, XML
 import re
 from bs4 import BeautifulSoup
@@ -55,3 +56,6 @@ def _search_page(element):
             return element['href']
     return None
 
+
+def _similar(a, b):
+    return SequenceMatcher(None, a, b).ratio()
