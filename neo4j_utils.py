@@ -1,17 +1,26 @@
-import rdflib
 from rdflib import Graph
-
+from SPARQL_query import query
+from config import uri, database_name, auth_pwd, auth_user
 
 def create_graph():
     g = Graph(store="Neo4j")
-    theconfig = {'uri': "neo4j://localhost:7687", 'database': 'ts-harrypotter', 'auth': {'user': "neo4j", 'pwd': "4218465"}}
-    g.open(theconfig, create=False)
+    config = {'uri': uri, 'database': database_name,
+              'auth': {'user': auth_user, 'pwd': auth_pwd}}
+    g.open(config, create=False)
     return g
 
 
-def add_triple(graph, s, p, o):
+def _create_uri(string, dict_elements={}):
     base_uri = "http://example.com/HP#"
-    s = rdflib.URIRef(base_uri + str(s).replace(" ", "_"))
-    p = rdflib.URIRef(base_uri + str(p).replace(" ", "_"))
-    o = rdflib.URIRef(base_uri + str(o).replace(" ", "_"))
-    graph.add((s, p, o))
+    el = str(string).lower().title()
+    if el in dict_elements.keys():
+        el = dict_elements[el]
+    res = query(el)
+    if res is not None:
+        return res
+    else:
+        return base_uri + str(string).lower().title().replace(" ", "_")
+
+
+def add_triple(graph, s, p, o, dict_elements={}):
+    graph.add((_create_uri(s, dict_elements), _create_uri(p, dict_elements), _create_uri(o, dict_elements)))

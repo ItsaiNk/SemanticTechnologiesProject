@@ -23,18 +23,23 @@ def query(element):
     query_string = "SELECT ?s WHERE {{?s rdfs:label \"" + element + "\"@en ;a owl:Thing .}}"
     result = _execute_query(query_string)
     if result is not None:
-        return result
+        return _check_result(element, result)
     else:
         query_string = "SELECT ?s WHERE {{?altName rdfs:label \"" + element + "\"@en ;dbo:wikiPageRedirects ?s .}}"
         result = _execute_query(query_string)
         if result is not None:
-            return result
+            return _check_result(element, result)
         else:
-            uri = _search_page(element)
-            if uri is not None:
-                return str(uri)
+            "SELECT ?s WHERE {{?s rdfs:label \"" + element + "\"@en ;a skos:Concept .}}"
+            result = _execute_query(query_string)
+            if result is not None:
+                return _check_result(element, result)
             else:
-                return None
+                uri = _search_page(element)
+                if uri is not None:
+                    return _check_result(element, str(uri))
+                else:
+                    return None
     return None
 
 
@@ -59,3 +64,12 @@ def _search_page(element):
 
 def _similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
+
+
+def _check_result(element, result):
+    sub_result = result.replace("http://dbpedia.org/resource/", "")
+    sub_result = sub_result.replace("_(Harry_Potter)", "")
+    if _similar(element, sub_result) >= 0.5:
+        return result
+    else:
+        return result + "#" + str(element).replace(" ", "_")

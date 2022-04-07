@@ -1,7 +1,9 @@
 import csv
+from SPARQL_query import query
 from ampligraph_training import train_model, grid_search_hyperparams
 from ampligraph_test import test_model
 from coreference import coref_resolution
+from references import create_ref_elements
 from triplets import OpenIEClient
 import pickle
 from nltk_utils import lemmatize_triplets, lemmatize_triplets_only_verbs, print_stopwords, \
@@ -10,6 +12,8 @@ from nltk_utils import remove_stopwords
 from config import *
 from neo4j_utils import *
 from ampligraph_predict import *
+
+
 # Press Maiusc+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
@@ -27,31 +31,6 @@ def triplets_to_csv(triplets, filename):
             writer.writerow(data)
 
 
-def ordered_triplets_to_csv(dict, filename):
-    with open(filename, "w", newline='') as f:
-        writer = csv.writer(f)
-        for key in dict.keys():
-            list = dict[key]
-            for el in list:
-                data = [el["subject"], el["relation"], el["object"]]
-                writer.writerow(data)
-
-
-def create_dict_by_element(triplets, element, save=False, filename=None):
-    dict_element = {}
-    for triplet in triplets:
-        if not triplet[element] in dict_element:
-            dict_element[triplet[element]] = []
-        else:
-            pass
-        dict_element[triplet[element]].append(triplet)
-    if save:
-        with open(filename, "wb") as f:
-            pickle.dump(dict_element, f)
-
-    return dict_element
-
-
 def create_csvs():
     client = OpenIEClient()
     for i in range(start, stop + 1):
@@ -66,13 +45,6 @@ def create_csvs():
             text = remove_stopwords(text, custom_stopwords)
 
         triplets = client.extract_triplets(text)
-
-        if dict_by_element:
-            dict_subjects = create_dict_by_element(triplets, "subject", save_files,
-                                                   "./obj/dict_subjects_hp" + str(i) + ".obj")
-            _ = create_dict_by_element(triplets, "relation", save_files, "./obj/dict_relations_hp" + str(i) + ".obj")
-            _ = create_dict_by_element(triplets, "object", save_files, "./obj/dict_objects_hp" + str(i) + ".obj")
-            # ordered_triplets_to_csv(dict_subjects, csv_folder + "triplets_hp" + str(i) + "_subjects.csv")
 
         if lemmatize:
             if only_verbs:
@@ -103,10 +75,11 @@ def merge_csvs():
 
 def create_graph_node4j():
     graph = create_graph()
-    with open(csv_folder+"triplets_hp_merged.csv", "r", newline="") as f:
+    dict_elements = create_ref_elements()
+    with open(csv_folder + "triplets_hp_merged.csv", "r", newline="") as f:
         reader = csv.reader(f)
         for row in reader:
-            add_triple(graph, row[0], row[1], row[2])
+            add_triple(graph, row[0], row[1], row[2], dict_elements)
     return graph
 
 
@@ -119,6 +92,7 @@ def main():
     # create_unseen()
     # predict_unseen()
     # g = create_graph_node4j()
+    # 116 subjects, 207 objects, 134 subjects now, 214 objects now
     return
 
 
