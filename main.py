@@ -80,6 +80,11 @@ def create_graph_node4j():
         reader = csv.reader(f)
         for row in reader:
             add_triple(graph, row[0], row[1], row[2], dict_elements)
+    for i in range(num_gen_repetions):
+        with open(csv_folder + "predicted"+str(i)+".csv", "r", newline="") as f:
+            reader = csv.reader(f)
+            for row in reader:
+                add_triple(graph, row[0], row[1], row[2], dict_elements)
     return graph
 
 

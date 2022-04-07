@@ -2,6 +2,7 @@ from rdflib import Graph
 from SPARQL_query import query
 from config import uri, database_name, auth_pwd, auth_user
 
+
 def create_graph():
     g = Graph(store="Neo4j")
     config = {'uri': uri, 'database': database_name,
