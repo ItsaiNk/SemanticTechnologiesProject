@@ -1,4 +1,4 @@
-from rdflib import Graph
+from rdflib import Graph, URIRef
 from SPARQL_query import query
 from config import uri, database_name, auth_pwd, auth_user
 
@@ -18,9 +18,9 @@ def _create_uri(string, dict_elements={}):
         el = dict_elements[el]
     res = query(el)
     if res is not None:
-        return res
+        return URIRef(str(res))
     else:
-        return base_uri + str(string).lower().title().replace(" ", "_")
+        return URIRef(base_uri + str(string).lower().title().replace(" ", "_"))
 
 
 def add_triple(graph, s, p, o, dict_elements={}):
