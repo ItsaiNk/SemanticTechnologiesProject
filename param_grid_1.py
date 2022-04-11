@@ -1,4 +1,4 @@
-param_grid_2 = {
+param_grid_1 = {
     "batches_count": [50, 100],
     "seed": 0,
     "epochs": [100],
