@@ -4,7 +4,7 @@ param_grid_2 = {
     "epochs": [100],
     "k": [150, 100, 50],
     "eta": [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-    "loss": ["pairwise", "nll", "self_adversarial"],
+    "loss": ["pairwise", "multiclass_nll", "self_adversarial"],
     # We take care of mapping the params to corresponding classes
     "loss_params": {
         # margin corresponding to both pairwise and adverserial loss
