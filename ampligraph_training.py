@@ -6,7 +6,8 @@ import tensorflow as tf
 from ampligraph.latent_features import save_model
 from config import *
 import os
-from param_grid_3 import param_grid_3
+from param_grid_1 import param_grid_1
+from param_grid_2 import param_grid_2
 
 
 def _load_sets():
@@ -79,7 +80,7 @@ def grid_search_hyperparams():
     print("Number of element in test set: " + str(len(test_set)))
 
     model_class = ComplEx
-    param_grid = param_grid_3
+    param_grid = param_grid_2
     # best_model, best_params, best_mrr_train, ranks_test, mrr_test
     best_model = select_best_model_ranking(model_class,
                                            # Class handle of the
@@ -103,6 +104,6 @@ def grid_search_hyperparams():
                                            verbose=False)
 
     print(best_model)
-    save_model(best_model[0], './model_param_3.pkl')
+    save_model(best_model[0], './model_param_2.pkl')
     with open("./training_set/best_model", "wb") as f:
         pickle.dump(best_model[1], f)
