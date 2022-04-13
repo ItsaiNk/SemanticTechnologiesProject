@@ -1,21 +1,15 @@
 import csv
-from SPARQL_query import query
 from ampligraph_training import train_model, grid_search_hyperparams
 from ampligraph_test import test_model
 from coreference import coref_resolution
 from references import create_ref_elements
 from triplets import OpenIEClient
-import pickle
-from nltk_utils import lemmatize_triplets, lemmatize_triplets_only_verbs, print_stopwords, \
-    create_stopwords_custom_object, sentence_tokenize, preprocess_text
+from nltk_utils import lemmatize_triplets, lemmatize_triplets_only_verbs, \
+    create_stopwords_custom_object, preprocess_text
 from nltk_utils import remove_stopwords
-from config import *
+from config import csv_folder
 from neo4j_utils import *
 from ampligraph_predict import *
-
-
-# Press Maiusc+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 
 def readfile(filename):
@@ -89,19 +83,16 @@ def create_graph_node4j():
 
 
 def main():
-    # create_stopwords_custom_object()
-    # create_csvs()
-    # merge_csvs()
-    # grid_search_hyperparams()
-    # test_model()
-    # create_unseen()
-    # predict_unseen()
-    # g = create_graph_node4j()
-    # 116 subjects, 207 objects, 134 subjects now, 214 objects now
+    create_stopwords_custom_object()
+    create_csvs()
+    merge_csvs()
+    grid_search_hyperparams()
+    test_model()
+    create_unseen()
+    predict_unseen()
+    g = create_graph_node4j()
     return
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     main()
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
